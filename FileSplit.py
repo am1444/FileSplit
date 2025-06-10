@@ -7,7 +7,7 @@ import sys # for access to stderr
 def eprint(*args, **kwargs):
     print(*args, file=sys.stderr, **kwargs)
 
-versionString = "FileSplit v0.2"
+versionString = "FileSplit v0.2.1"
 
 parser = argparse.ArgumentParser("Split files into subfiles.")
 
@@ -28,7 +28,7 @@ if args.version: # print version and exit with -v/--version flag
 
 if args.glue: # sew subfiles within current working directory back together
     fileContents = bytearray()
-    for fileName in sorted(os.listdir('.'), key=lambda x: int(x.split('_')[-1:][0])):
+    for fileName in [i for i in sorted(os.listdir('.'), key=lambda x: int(x.split('_')[-1:][0])) if i[0]!='.']:
         with open(fileName, "rb") as file:
             print(f"Reading {fileName}")
             fileContents.extend(bytearray(file.read()))
