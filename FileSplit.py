@@ -7,7 +7,7 @@ import sys # for access to stderr
 def eprint(*args, **kwargs):
     print(*args, file=sys.stderr, **kwargs)
 
-versionString = "FileSplit v0.2.3"
+versionString = "FileSplit v0.2.4"
 
 parser = argparse.ArgumentParser("Split files into subfiles.")
 
@@ -77,7 +77,7 @@ else: # split files apart
                 return (normalFileCount, specifiedOutputSize, lastFileSize)
             else:
                 eprint("File is smaller than specified output size, not modifying")
-                return (1,inputSize,0)
+                return (0,0,0)
     
     outputFileCount = 0
     outputFileSize = 0
@@ -93,9 +93,16 @@ else: # split files apart
         pass
     
     (normalFileCount, normalFileSize, lastFileSize) = fileSizes(len(inputArray),outputFileSize,outputFileCount)
-    outputFilesContents = [inputArray[i:i+normalFileSize] for i in range(0, len(inputArray) - len(inputArray) % normalFileSize, normalFileSize)] + [inputArray[-lastFileSize:]]
-
-    outputDirName = os.path.basename(os.path.abspath(".".join(args.input.split(".")[:-1])+"_split")) # removes file extensions
+    if normalFileSize > 0:
+        outputFilesContents = [inputArray[i:i+normalFileSize] for i in range(0, len(inputArray) - len(inputArray) % normalFileSize, normalFileSize)] + [inputArray[-lastFileSize:]]
+    else:
+        outputFilesContents = [inputArray]
+    
+    if args.out:
+        outputDirName = os.path.basename(os.path.abspath(args.out))
+    else:
+        outputDirName = os.path.basename(os.path.abspath(".".join(args.input.split(".")[:-1])+"_split")) # removes file extensions
+    
     print("creating DIR:", outputDirName)
     os.makedirs(outputDirName, exist_ok=True)
     
