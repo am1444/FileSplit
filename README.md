@@ -12,18 +12,12 @@ options:
   
   -c, --count COUNT     How many files the file should be split into.
   
-  -g, --glue, --no-glue
-  
-                        'Glue' subfiles back into their original file.
+  -g, --glue, --no-glue 'Glue' subfiles back into their original file.
                         
   -o, --out [OUT]       Where to store output of --glue'd files. Default=FileSplit.out.
                         
   -i, --input INPUT     Input file/dir to split/glue. Defaults to PWD.
   
-  -s, --maxsize MAXSIZE
-  
-                        How large each output file can get in bytes.
+  -s, --maxsize MAXSIZE How large each output file can get in bytes.
                         
-  -v, --version, --no-version
-  
-                        Print version information and exit.
+  -v, --version, --no-version Print version information and exit.
